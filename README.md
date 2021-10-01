@@ -1,3 +1,18 @@
+# bokkrubb-go-standard-library-cookbook
+fork of: https://github.com/PacktPublishing/Go-Standard-Library-Cookbook
+
+### How to use this repo
+
+This is a place to gather implementation examples and extensions from the cookbook to further discuss on weekly meetings. I'm thinking we could try to keep the directory/naming convention (`^Chapter\d{1,2}\/.+\/recipe\d{1,2}\/`) as much as possible.
+
+Feel free to fork this repo and add your own code/extensions to the existing recipes. Make sure to push stuff upstream before weekly meetings so that we have code available as reference when discussing.
+
+
+
+**original readme below**
+
+
+
 # Go Standard Library Cookbook
 This is the code repository for [Go Standard Library Cookbook](https://www.packtpub.com/application-development/go-standard-library-cookbook?utm_source=github&utm_medium=repository&utm_campaign=9781788475273), published by [Packt](https://www.packtpub.com/?utm_source=github). It contains all the supporting project files necessary to work through the book from start to finish.
 ## About the Book
