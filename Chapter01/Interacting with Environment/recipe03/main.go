@@ -1,6 +1,7 @@
 package main
 
 import (
+	"chapter01-recipe03/subpackage"
 	"flag"
 	"fmt"
 	"sync"
@@ -31,7 +32,7 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		flag.Parse()
+		subpackage.IPromiseThisIsATotallyPureFunction()
 		fmt.Printf("async end (after another Parse)\tf0=\"%s\"\t\t\tf1=\"%s\"\n", f0, f1)
 	}()
 
