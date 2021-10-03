@@ -3,52 +3,39 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
-	"os"
-	"strings"
+	"sync"
 )
 
-// Custom type need to implement
-// flag.Value interface to be able to
-// use it in flag.Var function.
-type ArrayValue []string
-
-func (s *ArrayValue) String() string {
-	return fmt.Sprintf("%v", *s)
-}
-
-func (a *ArrayValue) Set(s string) error {
-	*a = strings.Split(s, ",")
-	return nil
-}
-
 func main() {
+	var f0 string
+	var f1 string
 
-	// Extracting flag values with methods returning pointers
-	retry := flag.Int("retry", -1, "Defines max retry count")
+	/*
+	 * flag package is very stateful
+	 * We need to take note that we're binding pointers below.
+	 * Any action/mutation on the flag package may now affect these variables
+	 */
 
-	// Read the flag using the XXXVar function.
-	// In this case the variable must be defined
-	// prior to the flag.
-	var logPrefix string
-	flag.StringVar(&logPrefix, "prefix", "", "Logger prefix")
+	flag.StringVar(&f0, "f0", "", "Flag 0")
+	flag.StringVar(&f1, "f1", "", "Flag 1")
 
-	var arr ArrayValue
-	flag.Var(&arr, "array", "Input array to iterate through.")
+	_ = flag.Set("f0", "mutate before Parse()")
 
-	// Execute the flag.Parse function, to
-	// read the flags to defined variables.
-	// Without this call the flag
-	// variables remain empty.
+	fmt.Printf("before parse\t\t\tf0=\"%s\"\tf1=\"%s\"\n", f0, f1)
+
 	flag.Parse()
 
-	// Sample logic not related to flags
-	logger := log.New(os.Stdout, logPrefix, log.Ldate)
+	_ = flag.Set("f1", "mutate after Parse()")
 
-	retryCount := 0
-	for retryCount < *retry {
-		logger.Println("Retrying connection")
-		logger.Printf("Sending array %v\n", arr)
-		retryCount++
-	}
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		flag.Parse()
+		fmt.Printf("async end (after another Parse)\tf0=\"%s\"\t\t\tf1=\"%s\"\n", f0, f1)
+	}()
+
+	fmt.Printf("sync end\t\t\tf0=\"%s\"\t\t\tf1=\"%s\"\n", f0, f1)
+
+	wg.Wait()
 }
