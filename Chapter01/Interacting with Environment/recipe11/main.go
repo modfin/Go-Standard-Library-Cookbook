@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"log"
@@ -27,13 +28,13 @@ func main() {
 	// The code is running in a goroutine
 	// independently. So in case the program is
 	// terminated from outside, we need to
-	// let the goroutine know via the closeChan
-	closeChan := make(chan bool)
+	// let the goroutine know via the context
+	ctx, cancel := context.WithCancel(context.Background())
 	go func() {
 		for {
 			time.Sleep(time.Second)
 			select {
-			case <-closeChan:
+			case <-ctx.Done():
 				log.Println("Goroutine closing")
 				return
 			default:
@@ -58,7 +59,7 @@ func main() {
 	// After the signal is received
 	// all the code behind the read from channel could be
 	// considered as a cleanup
-	close(closeChan)
+	cancel()
 	releaseAllResources()
 	fmt.Println("The application shut down gracefully")
 }
