@@ -1,16 +1,19 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
+	"os"
 	"os/exec"
 )
 
 func main() {
+	prc := exec.Command("./inputrequired.sh")
+	prc.Stdout = os.Stdout
+	prc.Stdin = os.Stdin
+	// note @jonas: at least on macOS "read" prompt (-p) seems to output to stdErr
+	// so we need to pipe that too
+	prc.Stderr = os.Stderr
 
-	prc := exec.Command("ls", "-a")
-	out := bytes.NewBuffer([]byte{})
-	prc.Stdout = out
 	err := prc.Start()
 	if err != nil {
 		fmt.Println(err)
@@ -19,7 +22,6 @@ func main() {
 	prc.Wait()
 
 	if prc.ProcessState.Success() {
-		fmt.Println("Process run successfully with output:\n")
-		fmt.Println(out.String())
+		fmt.Println("Process ran successfully")
 	}
 }
