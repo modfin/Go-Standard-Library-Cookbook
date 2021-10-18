@@ -1,0 +1,2 @@
+#!/bin/sh
+go test -benchmem -bench=. benchmark_test.go
