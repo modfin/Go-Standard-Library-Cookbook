@@ -2,12 +2,17 @@ package main
 
 import (
 	"bytes"
+	"io"
+	"strings"
 	"testing"
 )
 
 const testString = "test"
 
 func BenchmarkConcat(b *testing.B) {
+	if testing.Short() {
+		b.Skip("Skip long-running BenchmarkConcat")
+	}
 	var str string
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
@@ -35,4 +40,19 @@ func BenchmarkCopy(b *testing.B) {
 		bl += copy(bs[bl:], testString)
 	}
 	b.StopTimer()
+}
+
+func Benchmark_Strings_Builder_WriteString(b *testing.B) {
+	var sb strings.Builder
+	for n := 0; n < b.N; n++ {
+		sb.WriteString(testString)
+	}
+}
+
+func Benchmark_Strings_Builder_as_IoWriter(b *testing.B) {
+	var sb strings.Builder
+	var w io.Writer = &sb
+	for n := 0; n < b.N; n++ {
+		w.Write([]byte(testString))
+	}
 }
