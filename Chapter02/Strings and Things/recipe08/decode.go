@@ -2,17 +2,35 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
-	"strings"
 
 	"golang.org/x/text/encoding/charmap"
 )
 
+type transformReader struct {
+	io.Reader
+	f *os.File
+}
+
+func (t transformReader) Close() error { return t.f.Close() }
+
+func open(fileName string, charmap *charmap.Charmap) (io.ReadCloser, error) {
+	f, err := os.Open(fileName)
+	if err != nil {
+		return nil, err
+	}
+	if charmap == nil {
+		return f, nil
+	}
+	return &transformReader{Reader: charmap.NewDecoder().Reader(f), f: f}, nil
+}
+
 func main() {
 
 	// Open windows-1250 file.
-	f, err := os.Open("win1250.txt")
+	f, err := open("win1250.txt", nil)
 	if err != nil {
 		panic(err)
 	}
@@ -23,14 +41,15 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	content := string(b)
-
-	fmt.Println("Without decode: " + content)
+	fmt.Println("Without decode: " + string(b))
 
 	// Decode to unicode
-	decoder := charmap.Windows1250.NewDecoder()
-	reader := decoder.Reader(strings.NewReader(content))
-	b, err = ioutil.ReadAll(reader)
+	f2, err := open("win1250.txt", charmap.Windows1250)
+	if err != nil {
+		panic(err)
+	}
+	defer f2.Close()
+	b, err = ioutil.ReadAll(f2)
 	if err != nil {
 		panic(err)
 	}
