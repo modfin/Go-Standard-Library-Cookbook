@@ -5,12 +5,15 @@ import (
 	"fmt"
 	"math/big"
 	"math/rand"
+	"time"
 )
 
 func main() {
-
-	sec1 := rand.New(rand.NewSource(10))
-	sec2 := rand.New(rand.NewSource(10))
+	t0 := time.Now().UnixNano()
+	t1 := time.Now().UnixNano()
+	fmt.Printf("%d\n%d\n", t0, t1)
+	sec1 := rand.New(rand.NewSource(t0))
+	sec2 := rand.New(rand.NewSource(t1))
 	for i := 0; i < 5; i++ {
 		rnd1 := sec1.Int()
 		rnd2 := sec2.Int()

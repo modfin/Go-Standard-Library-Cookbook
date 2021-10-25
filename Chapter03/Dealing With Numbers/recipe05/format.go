@@ -19,15 +19,17 @@ func main() {
 	// Print in other base x -16, o-8, b -2, d - 10
 	fmt.Printf("%x \n", integer)
 	fmt.Printf("%#x \n", integer)
+	fmt.Printf("%o \n", integer)
+	fmt.Printf("%b \n", integer)
 
 	// Padding with leading zeros
 	fmt.Printf("%010d \n", integer)
 
 	// Left padding with spaces
-	fmt.Printf("% 10d \n", integer)
+	fmt.Printf("% 10d |\n", integer)
 
 	// Right padding
-	fmt.Printf("% -10d \n", integer)
+	fmt.Printf("% -10d |\n", integer)
 
 	// Print floating
 	// point number

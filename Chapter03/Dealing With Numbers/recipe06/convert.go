@@ -6,7 +6,7 @@ import (
 )
 
 const bin = "10111"
-const hex = "1A"
+const hex = "1g"
 const oct = "12"
 const dec = "10"
 const floatNum = 16.123557
@@ -18,8 +18,12 @@ func main() {
 	fmt.Printf("Binary value %s converted to hex: %s\n", bin, v)
 
 	// Converts hex value into dec
-	v, _ = ConvertInt(hex, 16, 10)
-	fmt.Printf("Hex value %s converted to dec: %s\n", hex, v)
+	v, err := ConvertInt(hex, 16, 10)
+	if err != nil {
+		fmt.Printf("err: %s\n", err.Error())
+	} else {
+		fmt.Printf("Hex value %s converted to dec: %s\n", hex, v)
+	}
 
 	// Converts oct value into hex
 	v, _ = ConvertInt(oct, 8, 16)
