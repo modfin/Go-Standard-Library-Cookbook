@@ -5,8 +5,14 @@ import (
 	"time"
 )
 
+/**
+ * Order is according to ANSI C standardized format (which also _happens_ to be quite close to how US people format time):
+ * Month	Day of month	Hour	Minute	Second	Year	Timezone	Fraction
+ * 1			2							3			4				5				6			7					0 or 9
+ */
+
 func main() {
-	tTime := time.Date(2017, time.March, 5, 8, 5, 2, 0, time.Local)
+	tTime := time.Date(2017, time.March, 5, 8, 5, 2, 10000000, time.Local)
 
 	// The formatting is done
 	// with use of reference value
@@ -26,10 +32,10 @@ func main() {
 	// The zero padding is done by adding 0
 	fmt.Printf("tTime is: %s\n", tTime.Format("2006/01/02"))
 
-	//The fraction with leading zeros use 0s
-	fmt.Printf("tTime is: %s\n", tTime.Format("15:04:05.00"))
+	//The fraction with ~~leading~~trailing zeros use 0s
+	fmt.Printf("tTime is: %s\n", tTime.Format("15:04:05.000"))
 
-	//The fraction without leading zeros use 9s
+	//The fraction without ~~leading~~trailing zeros use 9s
 	fmt.Printf("tTime is: %s\n", tTime.Format("15:04:05.999"))
 
 	// Append format appends the formatted time to given

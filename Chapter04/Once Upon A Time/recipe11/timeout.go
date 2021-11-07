@@ -18,6 +18,7 @@ func main() {
 			select {
 			case <-to:
 				fmt.Println("The time is up")
+				// idiomatic Go to have a bool channel?
 				done <- true
 				return
 			default:

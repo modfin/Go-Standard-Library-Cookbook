@@ -12,7 +12,8 @@ func main() {
 	dOfMonth := t.Day()
 	weekDay := t.Weekday()
 	month := t.Month()
+	year := t.Year()
 
-	fmt.Printf("The %dth day of %v is %v\n", dOfMonth, month, weekDay)
+	fmt.Printf("The %dth day of %v %v is %v\n", dOfMonth, month, year, weekDay)
 
 }

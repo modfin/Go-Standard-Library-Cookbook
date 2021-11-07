@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 	"time"
 )
 
@@ -15,12 +16,20 @@ func main() {
 	fmt.Printf("Default date is: %v\n", t)
 
 	// Add 3 days
-	r1 := t.Add(72 * time.Hour)
-	fmt.Printf("Default date +3HRS is: %v\n", r1)
+	r1 := t.Add(72 * time.Hour) // Time Add Duration -> Time
+	fmt.Printf("Default date +3D is: %v\n", r1)
 
 	// Subtract 3 days
 	r1 = t.Add(-72 * time.Hour)
-	fmt.Printf("Default date -3HRS is: %v\n", r1)
+	fmt.Printf("Default date -3D is: %v\n", r1)
+
+	// A Duration is just a typed int64 with some added formatting
+	h := time.Hour
+	m := time.Minute
+	fmt.Printf("time.Duration + time.Duration = %v\n", reflect.TypeOf(h+m))
+	fmt.Printf("time.Duration - time.Duration = %v\n", reflect.TypeOf(h-m))
+	fmt.Printf("A quarter = %v\n", h/4)
+	fmt.Printf("Another quarter = %v\n", m*15)
 
 	// More comfortable api
 	// to add days/months/years

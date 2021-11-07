@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// TODO: wait groups?
 func main() {
 
 	c := make(chan os.Signal, 1)

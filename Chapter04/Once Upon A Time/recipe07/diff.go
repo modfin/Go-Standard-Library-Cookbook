@@ -17,7 +17,7 @@ func main() {
 	fmt.Printf("First Default date is %v\n", t)
 	fmt.Printf("Second Default date is %v\n", t2)
 
-	dur := t2.Sub(t)
+	dur := t2.Sub(t) // Time Sub Time -> Duration
 	fmt.Printf("The duration between t and t2 is %v\n", dur)
 
 	dur = time.Since(t)

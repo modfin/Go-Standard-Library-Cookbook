@@ -9,7 +9,7 @@ func main() {
 
 	// Set the epoch from int64
 	t := time.Unix(0, 0)
-	fmt.Println(t)
+	fmt.Println("Epoch start: ", t)
 
 	// Get the epoch
 	// from Time instance
