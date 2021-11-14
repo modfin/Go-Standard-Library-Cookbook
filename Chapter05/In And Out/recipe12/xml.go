@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/xml"
+	"errors"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -24,7 +26,10 @@ func main() {
 	books := make([]Book, 0)
 	for {
 		tok, err := decoder.Token()
-		if err != nil {
+		if errors.Is(err, io.EOF) {
+			fmt.Printf("token: %#v\n", tok)
+			break
+		} else if err != nil {
 			panic(err)
 		}
 		if tok == nil {
