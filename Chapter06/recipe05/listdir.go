@@ -17,6 +17,11 @@ func main() {
 }
 
 func listDirByWalk(path string) {
+	/*
+		Walk documentation metion using WalkDir instead since it is more efficient, and for
+		some reason it seems to be two WalkDir implementations in two different packages, one
+		in "path/filepath" and one in "io/fs"...
+	*/
 	filepath.Walk(path, func(wPath string, info os.FileInfo, err error) error {
 
 		// Walk the given dir
