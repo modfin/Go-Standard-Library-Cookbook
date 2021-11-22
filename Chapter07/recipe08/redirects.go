@@ -13,7 +13,7 @@ type RedirecServer struct {
 
 func (s *RedirecServer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	s.redirectCount++
-	fmt.Println("Received header: " + req.Header.Get("Known-redirects"))
+	fmt.Printf("svr: Known-redirects header: %s\n", req.Header.Get("Known-redirects"))
 	http.Redirect(rw, req, fmt.Sprintf("/redirect%d", s.redirectCount), http.StatusTemporaryRedirect)
 }
 
@@ -30,14 +30,14 @@ func main() {
 	// If the count of redirects is reached
 	// than return error.
 	client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
-		fmt.Println("Redirected")
+		fmt.Printf("cli: Redirected to:    %v\n", req.URL)
 		if redirectCount > 2 {
 			return fmt.Errorf("Too many redirects")
 		}
-		req.Header.Set("Known-redirects", fmt.Sprintf("%d", redirectCount))
 		redirectCount++
+		req.Header.Set("Known-redirects", fmt.Sprintf("%d", redirectCount))
 		for _, prReq := range via {
-			fmt.Printf("Previous request: %v\n", prReq.URL)
+			fmt.Printf("cli: Previous request: %v\n", prReq.URL)
 		}
 		return nil
 	}
