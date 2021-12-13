@@ -1,8 +1,11 @@
 package main
 
-import "sync"
-import "fmt"
-import "time"
+import (
+	"fmt"
+	"sync"
+	"sync/atomic"
+	"time"
+)
 
 type Worker struct {
 	id string
@@ -12,12 +15,14 @@ func (w *Worker) String() string {
 	return w.id
 }
 
-var globalCounter = 0
+// var globalCounter = 0
+var globalCounter int32
 
 var pool = sync.Pool{
 	New: func() interface{} {
-		res := &Worker{fmt.Sprintf("%d", globalCounter)}
-		globalCounter++
+		// res := &Worker{fmt.Sprintf("%d", globalCounter)}
+		// globalCounter++
+		res := &Worker{fmt.Sprintf("%d", atomic.AddInt32(&globalCounter, 1))}
 		return res
 	},
 }
