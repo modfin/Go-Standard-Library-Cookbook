@@ -27,9 +27,10 @@ func (g Gophers) Less(i, j int) bool {
 }
 
 func (g Gophers) Swap(i, j int) {
-	tmp := g[j]
-	g[j] = g[i]
-	g[i] = tmp
+	// tmp := g[j]
+	// g[j] = g[i]
+	// g[i] = tmp
+	g[i], g[j] = g[j], g[i]
 }
 
 func main() {
