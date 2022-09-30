@@ -2,7 +2,7 @@ module r05
 
 go 1.17
 
-require github.com/labstack/echo/v4 v4.6.1
+require github.com/labstack/echo/v4 v4.9.0
 
 require (
 	github.com/labstack/gommon v0.3.1 // indirect
